@@ -18,7 +18,7 @@ package loaders
 
 	public class AssetsLoader extends EventDispatcher
 	{
-		private const _loadingStrings:Vector.<String> = Vector.<String>(["sky/sky_posX.jpg", "sky/sky_posY.jpg", "sky/sky_posZ.jpg", "sky/sky_negX.jpg", "sky/sky_negY.jpg", "sky/sky_negZ.jpg", "camero/interior.jpg", "camero/camaro.AWD", "car.awd"]);
+		private const _loadingStrings:Vector.<String> = Vector.<String>(["sky/sky_posX.jpg", "sky/sky_posY.jpg", "sky/sky_posZ.jpg", "sky/sky_negX.jpg", "sky/sky_negY.jpg", "sky/sky_negZ.jpg", "camero/interior.jpg", "camero/camaro.AWD", "hamburg.AWD"]);
 		private var _n:uint = 0;
 		private var _bytesLoaded:uint = 0;
 		private var _bytesTotal:uint = 0;
@@ -252,12 +252,16 @@ package loaders
 								_carData.carShape = mesh.geometry;
 						}
 						break;
-					case "car.awd":	
+					case "hamburg.AWD":	
 						var sceneBody:AWPRigidBody;
+						trace(mesh.name);
 						switch (mesh.name) {
-							case "Track":
+							case "track":
 								//add mesh to view
 								//mesh.castsShadows = false;
+								mesh.rotationX = 180;
+								mesh.geometry.applyTransformation(mesh.transform);
+								mesh.rotationX = 0;
 								_sceneData.sceneMesh = mesh;
 								// create triangle mesh shape for Track ground
 								_sceneData.sceneBody = new AWPRigidBody(new AWPBvhTriangleMeshShape(mesh.geometry), mesh);

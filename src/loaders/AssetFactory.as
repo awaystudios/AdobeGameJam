@@ -36,6 +36,24 @@ package loaders
 			carInstance.rimMaterial.color = color;
 		}
 		
+		public function addScene(id:uint):SceneInstance
+		{
+			var sceneData:SceneData = _assetLoader.sceneAssets[id];
+			
+			var sceneInstance:SceneInstance = new SceneInstance();
+			sceneInstance.data = sceneData;
+			
+			//add to scene
+			var sceneMesh:Mesh = sceneData.sceneMesh;
+			_view3D.scene.addChild(sceneMesh);
+			
+			// add to world physics
+			var sceneBody:AWPRigidBody = sceneData.sceneBody;
+			_physicsWorld.addRigidBody(sceneBody);
+			
+			return sceneInstance;
+		}
+		
 		public function addCar(id:uint, sceneID:uint):CarInstance
 		{
 			var sceneData:SceneData = _assetLoader.sceneAssets[sceneID];

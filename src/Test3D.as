@@ -63,6 +63,9 @@ package
 		
 		public function Test3D()
 		{
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
 			initGlobal();
 			initLights();
 		}
@@ -196,6 +199,9 @@ package
 			}
 			
 			_assetFactory = new AssetFactory(_view3D, _physicsWorld, _assetLoader);
+			
+			_assetFactory.addScene(0);
+			
 			_assetFactory.addCar(0, 0);
 			
 			//generate cube texture for sky
