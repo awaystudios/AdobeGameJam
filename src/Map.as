@@ -31,13 +31,13 @@ package
 			addChild(pos);
 		}
 		
-		public function addMask(width:int,height:int){
+		public function addMask(width:int,height:int):void{
 			w = width;
 			h = height;
 			setFilter(w/2,h/2);
 		}
 		
-		private function setFilter(x:int,y:int){
+		private function setFilter(x:int,y:int):void{
 			//trackline.filter = new CircleMaskFilter(100,100,100);
 			//trackline.filter = new CircleMaskFilter(w/2,x,y);
 			trackline.clipRect = new Rectangle(x,y,w,h);
@@ -47,7 +47,7 @@ package
 			pos.y = y+h/2;
 		}
 		
-		public function setPos(x:int,y:int){
+		public function setPos(x:int,y:int):void{
 			setFilter(x,y);
 		}
 	}
