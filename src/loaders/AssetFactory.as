@@ -66,6 +66,7 @@ package loaders
 			
 			var material:SinglePassMaterialBase = new ColorMaterial(0x999999);
 			material.lightPicker = sceneData.lightPicker;
+			material.shadowMethod = sceneData.shadowMethod;
 			material.specular = 0;
 			
 			//assign materials
@@ -75,6 +76,7 @@ package loaders
 			material = new ColorMaterial(0x666666);
 			material.specular = 0;
 			material.lightPicker = sceneData.lightPicker;
+			material.shadowMethod = sceneData.shadowMethod;
 			
 			sceneZone06.material = material;
 			sceneZone07.material = material;
