@@ -1,8 +1,14 @@
 package views
 {
+	import com.bit101.components.ColorChooser;
+	import com.bit101.components.HBox;
+	import com.bit101.components.Label;
+	import com.bit101.components.VBox;
+	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import away3d.containers.ObjectContainer3D;
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
 	import away3d.primitives.WireframeCube;
@@ -28,8 +34,12 @@ package views
 		private var lastMouseX:Number;
 		private var lastMouseY:Number;
 		
+		private var bodyColorChooser:ColorChooser;
+		private var rimsColorChooser:ColorChooser;
+		
 		//car models
 		public var modelList : Array = [];
+		public var currentModel : ObjectContainer3D;
 		
 		override public function init():void
 		{
@@ -45,8 +55,11 @@ package views
 			sphere = new WireframeSphere(350);
 			modelList.push(cube);
 			modelList.push(sphere);
-			(modelList[User.selectedCarIndex] as WireframePrimitiveBase).color = User.color;
-			view3D.scene.addChild(modelList[0]);
+			
+			currentModel = modelList[User.selectedCarIndex]; 
+			
+			(currentModel as WireframePrimitiveBase).color = User.bodyColor;
+			view3D.scene.addChild(currentModel);
 			
 			camController = new HoverController(view3D.camera);
 			camController.distance = 1000;
@@ -73,10 +86,37 @@ package views
 			btNext.x = stage.stageWidth - btNext.width;
 			btNext.y = btPrev.y;
 			
+			var vBox : VBox = new VBox(this, 100, 100);
+			var hBox : HBox = new HBox(vBox);
+			var label : Label = new Label(hBox, 0, 0, "Body color:");
+			bodyColorChooser = new ColorChooser(hBox, 0, 0, User.bodyColor, _changeBodyColor);
+			bodyColorChooser.usePopup = true;
+			
+			
+			hBox = new HBox(vBox);
+			label = new Label(hBox, 0, 0, "Rims color:");
+			rimsColorChooser = new ColorChooser(hBox, 0, 0, User.rimsColor, _changeRimsColor);
+			rimsColorChooser.usePopup = true;
+			
 			addChild(btPrev);
 			addChild(btNext);
 			addChild(stats = new AwayStats(view3D))
 		}
+		
+		private function _changeRimsColor(event:Event):void
+		{
+			User.rimsColor = rimsColorChooser.value;
+			
+			_updateColors();
+		}
+		
+		private function _changeBodyColor(event:Event):void
+		{
+			User.bodyColor = bodyColorChooser.value;	
+			
+			_updateColors();
+		}		
+		
 		
 		override public function dispose () : void 
 		{
@@ -137,7 +177,7 @@ package views
 		
 		private function _changeModel (direction:int = 1) : void
 		{
-			view3D.scene.removeChild(modelList[User.selectedCarIndex]);
+			view3D.scene.removeChild(currentModel);
 			
 			if ( direction < 0 )
 			{
@@ -153,10 +193,15 @@ package views
 					User.selectedCarIndex = 0;
 				}
 			}
+			currentModel = modelList[User.selectedCarIndex];
+			view3D.scene.addChild(currentModel);
 			
-			view3D.scene.addChild(modelList[User.selectedCarIndex]);
-			
-			(modelList[User.selectedCarIndex] as WireframePrimitiveBase).color = Math.random()*0xFFFFFF;//User.color;
+			_updateColors();
+		}
+		
+		private function _updateColors () : void
+		{
+			(currentModel as WireframePrimitiveBase).color = User.bodyColor;
 		}
 	}
 }
