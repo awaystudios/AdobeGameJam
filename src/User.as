@@ -12,5 +12,6 @@ package
 		
 		static public var sharedStage3DProxy:Stage3DProxy;
 		static public var starling:Starling;
+		static public var hud:Hud;
 	}
 }

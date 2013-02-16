@@ -110,7 +110,7 @@ package
 			arrowPosYCorrection = 5.1;
 			arrowRootCorrectionX = 0;
 			arrowRootCorrectionY = -2;
-			
+			Singleton.getInstance().setSpeed = setSpeed;
 			trace('hud initialized');
 
 			addEventListener(Event.ADDED_TO_STAGE, init);

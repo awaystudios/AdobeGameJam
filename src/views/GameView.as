@@ -588,6 +588,8 @@ package views
 			super.render(event);
 			
 			User.starling.nextFrame();
+			
+			Singleton.getInstance().setSpeed(currentCar.carBody.linearVelocity.length);
 		}
 		
 		private function onMouseDown(event:MouseEvent):void

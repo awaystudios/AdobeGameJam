@@ -18,7 +18,7 @@ package
 		
 		private static var instance:Singleton;
 		private static var allowInstantiation:Boolean;
-
+		public var setSpeed:Function;
 		
 		
 		/**
@@ -46,6 +46,7 @@ package
 			}
 			return instance;
 		}
+		
 		
 		/**
 		*	Constructor never use this
