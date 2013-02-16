@@ -215,25 +215,25 @@ package loaders
 								mesh.scale(sc);
 								// the wheel used to create our 4 dynamic wheels
 								//mesh.material = textureMaterials[3];
-								_carData.wheelMeshFR;
+								_carData.wheelMeshFR = mesh;
 								break;
 							case "wheelFL":
 								mesh.scale(sc);
 								// the wheel used to create our 4 dynamic wheels
 								//mesh.material = textureMaterials[3];
-								_carData.wheelMeshFL;
+								_carData.wheelMeshFL = mesh;
 								break;
 							case "wheelBR":
 								mesh.scale(sc);
 								// the wheel used to create our 4 dynamic wheels
 								//mesh.material = textureMaterials[3];
-								_carData.wheelMeshBR;
+								_carData.wheelMeshBR = mesh;
 								break;
 							case "wheelBL":
 								mesh.scale(sc);
 								// the wheel used to create our 4 dynamic wheels
 								//mesh.material = textureMaterials[3];
-								_carData.wheelMeshBL;
+								_carData.wheelMeshBL = mesh;
 								break;
 							case "headLight":
 								//mesh.material = textureMaterials[5];

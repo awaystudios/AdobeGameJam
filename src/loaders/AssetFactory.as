@@ -17,9 +17,9 @@ package loaders
 	{
 		private var _view3D:View3D;
 		private var _physicsWorld:AWPDynamicsWorld;
-		private var _assetLoader:AssetLoader;
+		private var _assetLoader:AssetsLoader;
 		
-		public function AssetFactory(view3D:View3D, physicsWorld:AWPDynamicsWorld, assetLoader:AssetLoader )
+		public function AssetFactory(view3D:View3D, physicsWorld:AWPDynamicsWorld, assetLoader:AssetsLoader )
 		{
 			_view3D = view3D;
 			_physicsWorld = physicsWorld;
@@ -38,12 +38,13 @@ package loaders
 		
 		public function addCar(id:uint):CarInstance
 		{
-			var carData:CarData = _assetLoader[id];
+			var carData:CarData = _assetLoader.carAssets[id];
 			var carInstance:CarInstance = new CarInstance();
 			var carContainer:ObjectContainer3D = new ObjectContainer3D();
 			carInstance.carContainer = new ObjectContainer3D();
 			var carSubContainer:ObjectContainer3D = new ObjectContainer3D();
 			carSubContainer.rotationY = 180;
+			carSubContainer.addChild(carData.bodyMesh.clone() as Mesh);
 			carContainer.addChild(carSubContainer);
 			_view3D.scene.addChild(carContainer);
 			
@@ -78,10 +79,10 @@ package loaders
 			carInstance.carVehicle = carVehicle;
 			
 			// wheels setting
-			carVehicle.addWheel(carData.wheelMeshFR, new Vector3D(42, 28, 74), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, true);
-			carVehicle.addWheel(carData.wheelMeshFL, new Vector3D(-42, 28, 74), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, true);
-			carVehicle.addWheel(carData.wheelMeshBR, new Vector3D(42, 28, -67), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, false);
-			carVehicle.addWheel(carData.wheelMeshBL, new Vector3D(-42, 28, -67), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, false);
+			carVehicle.addWheel(carInstance.wheelFR, new Vector3D(42, 28, 74), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, true);
+			carVehicle.addWheel(carInstance.wheelFL, new Vector3D(-42, 28, 74), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, true);
+			carVehicle.addWheel(carInstance.wheelBR, new Vector3D(42, 28, -67), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, false);
+			carVehicle.addWheel(carInstance.wheelBL, new Vector3D(-42, 28, -67), new Vector3D(0, -1, 0), new Vector3D(-1, 0, 0), 5, 17, tuning, false);
 			
 			// wheels settings
 			for (var i:int = 0; i < carVehicle.getNumWheels(); i++) {
