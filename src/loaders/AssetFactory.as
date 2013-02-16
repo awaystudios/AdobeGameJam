@@ -64,18 +64,21 @@ package loaders
 			_physicsWorld.addRigidBody(sceneZone07Body);
 			
 			
-			var material:SinglePassMaterialBase = new ColorMaterial(0x666666);
+			var material:SinglePassMaterialBase = new ColorMaterial(0x999999);
+			material.lightPicker = sceneData.lightPicker;
 			material.specular = 0;
 			
 			//assign materials
 			sceneMesh.material = material;
-			material.lightPicker = sceneData.lightPicker;
 			sceneWall.material = material;
+			
+			material = new ColorMaterial(0x666666);
+			material.specular = 0;
 			material.lightPicker = sceneData.lightPicker;
+			
 			sceneZone06.material = material;
-			material.lightPicker = sceneData.lightPicker;
 			sceneZone07.material = material;
-			material.lightPicker = sceneData.lightPicker;
+
 			
 			return sceneInstance;
 		}
