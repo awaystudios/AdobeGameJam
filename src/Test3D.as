@@ -3,12 +3,21 @@ package
 	import away3d.cameras.lenses.*;
 	import away3d.containers.*;
 	import away3d.controllers.*;
+	import away3d.lights.*;
+	import away3d.lights.shadowmaps.*;
+	import away3d.materials.lightpickers.*;
+	import away3d.materials.methods.*;
+	import away3d.primitives.*;
+	import away3d.textures.*;
+	import away3d.utils.*;
 	
 	import flash.display.*;
 	import flash.events.*;
 	import flash.geom.*;
 	
 	import awayphysics.dynamics.*;
+	
+	import data.*;
 	
 	import loaders.*;
 	
@@ -30,7 +39,35 @@ package
 		private var _prevMouseY:Number;
 		private var _mouseMove:Boolean;
 		
+		//light variables
+		private var _sunLight:DirectionalLight;
+		private var _skyLight:PointLight;
+		private var _lightPicker:StaticLightPicker;
+		
+		//materials
+		private var _skyMap:BitmapCubeTexture;
+		private var _fog:FogMethod;
+		private var _specularMethod:FresnelSpecularMethod;
+		private var _shadowMethod:NearShadowMapMethod;
+
+		//global light setting
+		private var sunColor:uint = 0xAAAAA9;
+		private var sunAmbient:Number = 0.4;
+		private var sunDiffuse:Number = 0.5;
+		private var sunSpecular:Number = 1;
+		private var skyColor:uint = 0x333338;
+		private var skyAmbient:Number = 0.2;
+		private var skyDiffuse:Number = 0.3;
+		private var skySpecular:Number = 0.5;
+		private var fogColor:uint = 0x333338;
+		
 		public function Test3D()
+		{
+			initGlobal();
+			initLights();
+		}
+		
+		public function initGlobal():void
 		{
 			_view3D = new View3D();
 			_view3D = new View3D();
@@ -73,6 +110,50 @@ package
 			onResize();
 		}
 		
+		
+		/**
+		 * Initialise the lights
+		 */
+		private function initLights():void
+		{
+			//create a light for shadows that mimics the sun's position in the skybox
+			_sunLight = new DirectionalLight();
+			_sunLight.y = 1200;
+			_sunLight.color = sunColor;
+			_sunLight.ambientColor = sunColor;
+			_sunLight.ambient = sunAmbient;
+			_sunLight.diffuse = sunDiffuse;
+			_sunLight.specular = sunSpecular;
+			
+			_sunLight.castsShadows = true;
+			_sunLight.shadowMapper = new NearDirectionalShadowMapper(.1);
+			_view3D.scene.addChild(_sunLight);
+			
+			//create a light for ambient effect that mimics the sky
+			_skyLight = new PointLight();
+			_skyLight.color = skyColor;
+			_skyLight.ambientColor = skyColor;
+			_skyLight.ambient = skyAmbient;
+			_skyLight.diffuse = skyDiffuse;
+			_skyLight.specular = skySpecular;
+			_skyLight.y = 1200;
+			_skyLight.radius = 1000;
+			_skyLight.fallOff = 2500;
+			_view3D.scene.addChild(_skyLight);
+			
+			
+			//global methods
+			_fog = new FogMethod(1000, 10000, 0x333338);
+			_specularMethod = new FresnelSpecularMethod();
+			_specularMethod.normalReflectance = 1.8;
+			
+			_shadowMethod = new NearShadowMapMethod(new FilteredShadowMapMethod(_sunLight));
+			_shadowMethod.epsilon = .0007;
+			
+			//create light picker for materials
+			_lightPicker = new StaticLightPicker([_sunLight, _skyLight]);
+		}
+		
 		protected function onEnterFrame(event:Event):void
 		{
 			_physicsWorld.step(_timeStep);
@@ -83,13 +164,49 @@ package
 			}
 			
 			_cameraController.update();
+			
+			//update light
+			_skyLight.position = _view3D.camera.position;
+			
 			_view3D.render();
 		}
 		
 		protected function onComplete(event:Event):void
 		{
+			for each (var sceneData:SceneData in _assetLoader.sceneAssets)
+			{
+				sceneData.lightPicker = _lightPicker;
+				
+				//materials
+				sceneData.skyMap = _skyMap;
+				sceneData.fog = _fog;
+				sceneData.specularMethod = _specularMethod;
+				sceneData.shadowMethod = _shadowMethod;
+				
+				//global light setting
+				sceneData.sunColor = sunColor;
+				sceneData.sunAmbient = sunAmbient;
+				sceneData.sunDiffuse = sunDiffuse;
+				sceneData.sunSpecular = sunSpecular;
+				sceneData.skyColor = skyColor;
+				sceneData.skyAmbient = skyAmbient;
+				sceneData.skyDiffuse = skyDiffuse;
+				sceneData.skySpecular = skySpecular;
+				sceneData.fogColor = fogColor;
+			}
+			
 			_assetFactory = new AssetFactory(_view3D, _physicsWorld, _assetLoader);
-			_assetFactory.addCar(0);
+			_assetFactory.addCar(0, 0);
+			
+			//generate cube texture for sky
+			_skyMap = new BitmapCubeTexture(
+				Cast.bitmapData(_assetLoader.imageAssets[0]), Cast.bitmapData(_assetLoader.imageAssets[3]),
+				Cast.bitmapData(_assetLoader.imageAssets[1]), Cast.bitmapData(_assetLoader.imageAssets[4]),
+				Cast.bitmapData(_assetLoader.imageAssets[2]), Cast.bitmapData(_assetLoader.imageAssets[5])
+			);
+			
+			//create the skybox
+			_view3D.scene.addChild(new SkyBox(_skyMap));
 		}
 		
 		

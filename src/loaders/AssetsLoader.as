@@ -18,7 +18,7 @@ package loaders
 
 	public class AssetsLoader extends EventDispatcher
 	{
-		private const _loadingStrings:Vector.<String> = Vector.<String>(["camero/interior.jpg", "camero/camaro.AWD", "car.awd"]);
+		private const _loadingStrings:Vector.<String> = Vector.<String>(["sky/sky_posX.jpg", "sky/sky_posY.jpg", "sky/sky_posZ.jpg", "sky/sky_negX.jpg", "sky/sky_negY.jpg", "sky/sky_negZ.jpg", "camero/interior.jpg", "camero/camaro.AWD", "car.awd"]);
 		private var _n:uint = 0;
 		private var _bytesLoaded:uint = 0;
 		private var _bytesTotal:uint = 0;
@@ -30,6 +30,7 @@ package loaders
 		
 		public var carAssets:Vector.<CarData> = new Vector.<CarData>();
 		
+		public var imageAssets:Vector.<Bitmap> = new Vector.<Bitmap>();
 		public var sceneAssets:Vector.<SceneData> = new Vector.<SceneData>();
 		private var _sceneData:SceneData;
 		
@@ -150,9 +151,7 @@ package loaders
 			var loader:Loader = LoaderInfo(e.target).loader;
 			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onBitmapComplete);
 			
-			//create bitmap texture in dictionary
-			//if (!textureMaterials[_n])
-			//	textureMaterials[_n] = new TextureMaterial(Cast.bitmapTexture(e.target.content));
+			imageAssets.push(e.target.content);
 			
 			loader.unload();
 			loader = null;

@@ -2,8 +2,10 @@ package data
 {
 	import away3d.containers.*;
 	import away3d.entities.*;
-	import awayphysics.dynamics.vehicle.AWPRaycastVehicle;
-	import awayphysics.dynamics.AWPRigidBody;
+	import away3d.materials.*;
+	
+	import awayphysics.dynamics.*;
+	import awayphysics.dynamics.vehicle.*;
 
 	public class CarInstance
 	{
@@ -20,6 +22,10 @@ package data
 		public var wheelBL:Mesh;
 		public var carVehicle:AWPRaycastVehicle;
 		public var carBody:AWPRigidBody;
+		
+		//materials
+		public var bodyMaterial:ColorMaterial;
+		public var rimMaterial:ColorMaterial;
 		
 	}
 }

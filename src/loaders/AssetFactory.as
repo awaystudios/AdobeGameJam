@@ -2,7 +2,7 @@ package loaders
 {
 	import away3d.containers.*;
 	import away3d.entities.*;
-	import away3d.loaders.*;
+	import away3d.materials.*;
 	
 	import flash.geom.*;
 	
@@ -28,23 +28,25 @@ package loaders
 		
 		public function setBodyColor(carInstance:CarInstance, color:uint):void
 		{
-			
+			carInstance.bodyMaterial.color = color;
 		}
 		
 		public function setRimColor(carInstance:CarInstance, color:uint):void
 		{
-			
+			carInstance.rimMaterial.color = color;
 		}
 		
-		public function addCar(id:uint):CarInstance
+		public function addCar(id:uint, sceneID:uint):CarInstance
 		{
+			var sceneData:SceneData = _assetLoader.sceneAssets[sceneID];
+			
 			var carData:CarData = _assetLoader.carAssets[id];
 			var carInstance:CarInstance = new CarInstance();
 			var carContainer:ObjectContainer3D = new ObjectContainer3D();
 			carInstance.carContainer = new ObjectContainer3D();
 			var carSubContainer:ObjectContainer3D = new ObjectContainer3D();
 			carSubContainer.rotationY = 180;
-			carSubContainer.addChild(carData.bodyMesh.clone() as Mesh);
+			carSubContainer.addChild(carInstance.bodyMesh = carData.bodyMesh.clone() as Mesh);
 			carContainer.addChild(carSubContainer);
 			_view3D.scene.addChild(carContainer);
 			
@@ -92,6 +94,28 @@ package loaders
 				wheel.suspensionRestLength1 = 10;
 				wheel.rollInfluence = 0.2;
 			}
+			
+			var material:SinglePassMaterialBase;
+			
+			//create body material
+			carInstance.bodyMesh.material = material = carInstance.bodyMaterial = new ColorMaterial(0xFF0000);
+			material.lightPicker = sceneData.lightPicker;
+			
+			//create rim material
+			material = carInstance.rimMaterial = new ColorMaterial(0x00FF00);
+			material.lightPicker = sceneData.lightPicker;
+			(carInstance.wheelBL.getChildAt(0) as Mesh).material = material;
+			(carInstance.wheelBR.getChildAt(0) as Mesh).material = material;
+			(carInstance.wheelFL.getChildAt(0) as Mesh).material = material;
+			(carInstance.wheelFR.getChildAt(0) as Mesh).material = material;
+			
+			//create wheel material
+			material = new ColorMaterial(0x333333);
+			material.lightPicker = sceneData.lightPicker;
+			carInstance.wheelBL.material = material;
+			carInstance.wheelBR.material = material;
+			carInstance.wheelFL.material = material;
+			carInstance.wheelFR.material = material;
 			
 			return carInstance;
 		}
