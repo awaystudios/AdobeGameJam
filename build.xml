@@ -1,0 +1,56 @@
+
+<project name="AdobeGameJam" default="go" basedir=".">
+
+	<property name="FLEX_HOME" value="/Applications/Adobe Flash Builder 4.7/sdks/4.6.0" />
+	<taskdef name="mxmlc" classname="flex.ant.MxmlcTask" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+	<taskdef name="html-wrapper" classname="flex.ant.HtmlWrapperTask" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+	<property name="src.dir" value="./src/" />
+	<property name="bin.dir" value="./bin-debug"/>
+	<property name="libs.dir" value="./libs/" />
+	<property name="swc.dir" value="./swc/" />
+	
+	<property name="flashPlayer" value="/Applications/Adobe Flash Builder 4.7/player/mac/11.4/Flash Player Debugger.app" />
+	
+	<target name="go" depends="compile-loader">
+		<echo>Launching...</echo>
+		
+		<exec executable="open" spawn="true">
+			<arg line="/Applications/Adobe\ Flash\ Builder\ 4.7/player/mac/11.4/Flash\ Player\ Debugger.app"/>
+			<arg line="${bin.dir}/AdobeGameJamLoader.swf" />
+		</exec>
+	</target>
+
+	<target name="compile-loader" depends="compile-game">
+		<mxmlc 
+			file="${src.dir}/AdobeGameJamLoader.as"
+			output="${bin.dir}/AdobeGameJamLoader.swf"
+			debug="true" 
+			keep-generated-actionscript="false"
+			static-link-runtime-shared-libraries="true">
+			<source-path path-element="${FLEX_HOME}/frameworks" />
+			<source-path path-element="${src.dir}" />
+			<source-path path-element="${libs.dir}" />
+			<compiler.library-path dir="${swc.dir}" append="true">
+				<include name="*.swc" />
+			</compiler.library-path>
+		</mxmlc>
+	</target>
+
+	<target name="compile-game">
+		<mxmlc 
+			file="${src.dir}/AdobeGameJam.as"
+			output="${bin.dir}/AdobeGameJam.swf"
+			debug="true" 
+			keep-generated-actionscript="false"
+			static-link-runtime-shared-libraries="true">
+			<source-path path-element="${FLEX_HOME}/frameworks" />
+			<source-path path-element="${src.dir}" />
+			<source-path path-element="${libs.dir}" />
+			<compiler.library-path dir="${swc.dir}" append="true">
+ 				<include name="*.swc" />
+			</compiler.library-path>
+ 		</mxmlc>
+	</target>
+	
+</project>
