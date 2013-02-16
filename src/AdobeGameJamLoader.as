@@ -16,10 +16,7 @@ package
 		public function AdobeGameJamLoader ()
 		{
 			SplashView;
-<<<<<<< HEAD
-=======
 			Hud;
->>>>>>> puting HUD
 			super();
 		}
 		

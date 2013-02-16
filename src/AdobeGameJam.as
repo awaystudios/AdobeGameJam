@@ -15,12 +15,8 @@ package
 			GarageView;
 			GameView;
 			LobbyView;
-<<<<<<< HEAD
-			MultiplayerTestView;
-=======
 			HudView;
 			Hud;
->>>>>>> puting HUD
 		}
 	}
 }
