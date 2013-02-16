@@ -158,10 +158,7 @@ package views
 		private var cars:Object = {};
 		private function handleMultiplayerConnect(connection:Connection):void{
 			this.connection = connection;
-			
-			//	ListRooms();
-			
-			
+		
 			
 			connection.addMessageHandler("m",function(m:Message, id:uint, ba:ByteArray):void{
 				
@@ -204,36 +201,7 @@ package views
 				//Offset declares the offset in the poll position where the player should start
 				//Remember to lock players in place.
 			})
-			/*var ba:ByteArray = serialize(
-			1,1,1,1,vector, vector,vector,vector,
-			vector, 1,1,
-			vector, 1,1,
-			vector, 1,1,
-			vector, 1,1
-			)*/
 			
-			//deserialize(ba)
-			
-			/*connection.addMessageHandler("p", function(m:Message, from:uint, data:ByteArray):void{
-			deserialize(data);
-			})
-			
-			connection.send("p", ba);*/
-			
-			
-			/*connection.addMessageHandler("ping", function(m:Message, id:uint, time:Number):void{
-			trace("Ping",new Date().time-time)
-			connection.send("ping", new Date().time)
-			})
-			
-			
-			
-			connection.addMessageHandler("*", function(m:Message):void{
-			trace(m);
-			})
-			
-			
-			connection.send("ping", 0)*/
 			
 		}
 		
@@ -248,11 +216,11 @@ package views
 				case Keyboard.UP: 
 				case Keyboard.W: 
 				case Keyboard.Z: //fr
-					_engineForce = 2500;
+					_engineForce = 4500;
 					break;
 				case Keyboard.DOWN: 
 				case Keyboard.S: 
-					_engineForce = -2500;
+					_engineForce = -4500;
 					break;
 				case Keyboard.LEFT: 
 				case Keyboard.A: 

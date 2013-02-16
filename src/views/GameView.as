@@ -137,7 +137,7 @@ package views
 			
 			
 			connection.addMessageHandler("m",function(m:Message, id:uint, ba:ByteArray):void{
-				
+				if(!_assetFactory) return
 				if(!cars[id])
 					cars[id] = _assetFactory.addCar(0,0);
 				
