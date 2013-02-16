@@ -14,7 +14,6 @@ package
 		public function AdobeGameJamLoader ()
 		{
 			SplashView;
-			
 			super();
 		}
 		
@@ -37,7 +36,7 @@ package
 			//ServiceManager.instance.registerServicesByConfig(parameters);
 			
 			removeView("splash");
-			addView("test"); 
+			addView("game"); 
 			
 			if ( parameters.debug )
 			{
