@@ -257,8 +257,8 @@ package loaders
 						var sceneBody:AWPRigidBody;
 						var trackScale:Number = 5;
 						
-						if (mesh.name == "track")
-							mesh.rotationX = 180;
+						//if (mesh.name == "track")
+						//	mesh.rotationX = 180;
 						mesh.geometry.applyTransformation(mesh.transform);
 						mesh.geometry.scale(trackScale);
 						mesh.rotationX = 0;
