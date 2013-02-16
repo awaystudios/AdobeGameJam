@@ -38,6 +38,7 @@ views:
         class: views.HudView
       - id: game
         class: views.GameView
+        zIndex:50
       - id: test
         class: views.MultiplayerTestView
         #zIndex: 5

@@ -29,6 +29,8 @@ package views
 			
 			starlingHUD = new Starling(Hud, stage, User.sharedStage3DProxy.viewPort, User.sharedStage3DProxy.stage3D);
 			starlingHUD.start();
+			
+			User.starling = starlingHUD;
 		}
 	}
 }

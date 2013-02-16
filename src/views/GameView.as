@@ -586,6 +586,8 @@ package views
 			
 			_skyLight.position = view3D.camera.position;
 			super.render(event);
+			
+			User.starling.nextFrame();
 		}
 		
 		private function onMouseDown(event:MouseEvent):void

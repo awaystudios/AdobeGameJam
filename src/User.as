@@ -1,6 +1,8 @@
 package
 {
 	import away3d.core.managers.Stage3DProxy;
+	
+	import starling.core.Starling;
 
 	public class User
 	{
@@ -9,5 +11,6 @@ package
 		static public var rimsColor:uint = 0xFF0000;
 		
 		static public var sharedStage3DProxy:Stage3DProxy;
+		static public var starling:Starling;
 	}
 }
