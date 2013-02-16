@@ -11,17 +11,6 @@ package views
 	{
 		public var view3D:View3D;
 		
-		//public function Away3DView()
-		//{
-		//	stage ? setup() : addEventListener(Event.ADDED_TO_STAGE,setup);
-		//}
-		
-		//public function setup(event:Event=null):void
-		//{
-		//	removeEventListener(Event.ADDED_TO_STAGE,setup);
-		//	init();
-		//}
-		
 		override public function init():void
 		{
 			view3D = new View3D();

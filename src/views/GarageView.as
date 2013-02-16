@@ -307,8 +307,8 @@ package views
 		{
 			removeChild(stats);
 			
-			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+//			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+//			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 			super.dispose();
 		}

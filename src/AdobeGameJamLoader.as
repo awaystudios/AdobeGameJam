@@ -49,12 +49,12 @@ package
 		{
 			try 
 			{
+//				trace(int(event.bytesLoaded / event.bytesTotal * 100));
 				msg("splash").bar.progress = int(event.bytesLoaded / event.bytesTotal * 100);
-				trace(int(event.bytesLoaded / event.bytesTotal * 100));
 			}
 			catch ( error : Error )
 			{
-				trace('load error');
+				
 			}
 		}
 	}
