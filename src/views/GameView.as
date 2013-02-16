@@ -12,8 +12,8 @@ package views
 //		public var stage3DManager:Stage3DManager;
 //		public var stage3DProxy:Stage3DProxy;
 		
-//		override public function init():void
-//		{
+		override public function init():void
+		{
 //			// Define a new Stage3DManager for the Stage3D objects
 //			stage3DManager = Stage3DManager.getInstance(stage);
 //			
@@ -22,6 +22,8 @@ package views
 ////			stage3DProxy.addEventListener(Stage3DEvent.CONTEXT3D_CREATED, onContextCreated);
 //			stage3DProxy.antiAlias = 8;
 //			stage3DProxy.color = 0x0;
-//		}
+			
+			
+		}
 	}
 }

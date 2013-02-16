@@ -302,13 +302,17 @@ package views
 			//_updateColors();
 		}		
 		
+		override public function hide () : void
+		{
+			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			
+			super.hide();
+		}
 		
 		override public function dispose () : void 
 		{
 			removeChild(stats);
-			
-//			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-//			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
 			super.dispose();
 		}
