@@ -3,7 +3,9 @@ package views
 	import com.bit101.components.ColorChooser;
 	import com.bit101.components.HBox;
 	import com.bit101.components.Label;
+	import com.bit101.components.PushButton;
 	import com.bit101.components.VBox;
+	import com.bit101.components.Window;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -229,6 +231,9 @@ package views
 			_assetFactory = new AssetFactory(view3D, physicsWorld, _assetLoader);
 			currentCar = _assetFactory.addCar(User.selectedCarIndex,0);
 			
+			bodyColorChooser.value = currentCar.bodyMaterial.color;
+			rimsColorChooser.value = currentCar.rimMaterial.color;
+			
 			//generate cube texture for sky
 			_skyMap = new BitmapCubeTexture(
 				Cast.bitmapData(_assetLoader.imageAssets[0]), Cast.bitmapData(_assetLoader.imageAssets[3]),
@@ -254,7 +259,9 @@ package views
 			btNext.x = stage.stageWidth - btNext.width;
 			btNext.y = btPrev.y;
 			
-			var vBox : VBox = new VBox(this, 100, 100);
+			var window:Window = new Window(this, 100, 100,'Pimp your ride:');
+			window.width = 300;
+			var vBox : VBox = new VBox(window);
 			var hBox : HBox = new HBox(vBox);
 			var label : Label = new Label(hBox, 0, 0, "Body color:");
 			bodyColorChooser = new ColorChooser(hBox, 0, 0, User.bodyColor, _changeBodyColor);
@@ -266,9 +273,17 @@ package views
 			rimsColorChooser = new ColorChooser(hBox, 0, 0, User.rimsColor, _changeRimsColor);
 			rimsColorChooser.usePopup = true;
 			
+			var btLobby:PushButton = new PushButton(vBox, 0, 0, "Go to Lobby !!!", _gotoLobby);
+			
 			addChild(btPrev);
 			addChild(btNext);
 			addChild(stats = new AwayStats(view3D))
+		}
+		
+		private function _gotoLobby(event:Event):void
+		{
+			addView("lobby");
+			removeView("garage");
 		}
 		
 		private function _changeRimsColor(event:Event):void

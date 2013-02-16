@@ -39,7 +39,7 @@ package views
 		override public function dispose():void
 		{
 			removeEventListener(Event.ENTER_FRAME, render);
-			stage.removeEventListener(Event.RESIZE, onResize);
+//			stage.removeEventListener(Event.RESIZE, onResize);
 			removeChild(view3D);
 			
 			view3D.dispose();

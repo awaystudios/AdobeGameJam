@@ -4,9 +4,9 @@ package views
 	
 	public class LobbyView extends View
 	{
-		public function LobbyView()
+		override public function init () : void
 		{
-			super();
+			trace("Lobby!!!");
 		}
 	}
 }
