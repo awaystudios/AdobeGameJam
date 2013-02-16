@@ -14,7 +14,6 @@ package
 		public function AdobeGameJamLoader ()
 		{
 			SplashView;
-			
 			super();
 		}
 		
