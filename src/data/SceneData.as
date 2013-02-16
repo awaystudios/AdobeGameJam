@@ -35,5 +35,11 @@ package data
 		public var skyDiffuse:Number = 0.3;
 		public var skySpecular:Number = 0.5;
 		public var fogColor:uint = 0x333338;
+		public var sceneWall:Mesh;
+		public var sceneWallBody:AWPRigidBody;
+		public var sceneZone06:Mesh;
+		public var sceneZone06Body:AWPRigidBody;
+		public var sceneZone07Body:AWPRigidBody;
+		public var sceneZone07:Mesh;
 	}
 }

@@ -46,10 +46,22 @@ package loaders
 			//add to scene
 			var sceneMesh:Mesh = sceneData.sceneMesh;
 			_view3D.scene.addChild(sceneMesh);
+			var sceneWall:Mesh = sceneData.sceneMesh;
+			_view3D.scene.addChild(sceneWall);
+			var sceneZone06:Mesh = sceneData.sceneZone06;
+			_view3D.scene.addChild(sceneZone06);
+			var sceneZone07:Mesh = sceneData.sceneZone07;
+			_view3D.scene.addChild(sceneZone07);
 			
 			// add to world physics
 			var sceneBody:AWPRigidBody = sceneData.sceneBody;
 			_physicsWorld.addRigidBody(sceneBody);
+			var sceneWallBody:AWPRigidBody = sceneData.sceneWallBody;
+			_physicsWorld.addRigidBody(sceneWallBody);
+			var sceneZone06Body:AWPRigidBody = sceneData.sceneZone06Body;
+			_physicsWorld.addRigidBody(sceneZone06Body);
+			var sceneZone07Body:AWPRigidBody = sceneData.sceneZone07Body;
+			_physicsWorld.addRigidBody(sceneZone07Body);
 			
 			return sceneInstance;
 		}

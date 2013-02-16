@@ -254,17 +254,37 @@ package loaders
 						break;
 					case "hamburg.AWD":	
 						var sceneBody:AWPRigidBody;
+						var trackScale:Number = 5;
 						trace(mesh.name);
+						if (mesh.name == "track")
+							mesh.rotationX = 180;
+						mesh.geometry.applyTransformation(mesh.transform);
+						mesh.geometry.scale(trackScale);
+						mesh.rotationX = 0;
 						switch (mesh.name) {
 							case "track":
 								//add mesh to view
-								//mesh.castsShadows = false;
-								mesh.rotationX = 180;
-								mesh.geometry.applyTransformation(mesh.transform);
-								mesh.rotationX = 0;
 								_sceneData.sceneMesh = mesh;
-								// create triangle mesh shape for Track ground
+								// create triangle mesh shape for mesh
 								_sceneData.sceneBody = new AWPRigidBody(new AWPBvhTriangleMeshShape(mesh.geometry), mesh);
+								break;
+							case "wall":
+								//add mesh to view
+								_sceneData.sceneWall = mesh;
+								// create triangle mesh shape for mesh
+								_sceneData.sceneWallBody = new AWPRigidBody(new AWPBvhTriangleMeshShape(mesh.geometry), mesh);
+								break;
+							case "zone07":
+								//add mesh to view
+								_sceneData.sceneZone07 = mesh;
+								// create triangle mesh shape for mesh
+								_sceneData.sceneZone07Body = new AWPRigidBody(new AWPBvhTriangleMeshShape(mesh.geometry), mesh);
+								break;
+							case "zone06":
+								//add mesh to view
+								_sceneData.sceneZone06 = mesh;
+								// create triangle mesh shape for mesh
+								_sceneData.sceneZone06Body = new AWPRigidBody(new AWPBvhTriangleMeshShape(mesh.geometry), mesh);
 								break;
 							default:
 						}
