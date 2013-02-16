@@ -2,13 +2,8 @@ package
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Bounce;
-	import com.greensock.easing.Quad;
-	import com.greensock.easing.Sine;
 	
 	import flash.display.Bitmap;
-	import flash.geom.Rectangle;
-	import flash.utils.setInterval;
-	import flash.utils.setTimeout;
 	
 	import starling.display.Image;
 	import starling.display.Quad;
@@ -280,7 +275,7 @@ package
 			TweenLite.to(this, gainTime, { 
 				tweenedValue:value,
 				ease: Bounce,
-				onComplete: function(){
+				onComplete: function():void{
 					TweenLite.to(this,dropTime,{
 						tweenValue:0,
 						ease:Bounce

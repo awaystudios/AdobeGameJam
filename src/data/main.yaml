@@ -33,7 +33,9 @@ views:
         #zIndex: 10
       - id: lobby
         class: views.LobbyView
-        #zIndex: 7      
+        #zIndex: 7
+      - id: hud
+        class: views.HudView
       - id: game
         class: views.GameView
       - id: test

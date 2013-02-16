@@ -7,6 +7,8 @@ package views
 		override public function init () : void
 		{
 			trace("Lobby!!!");
+			addView("game");
+			removeView("lobby");
 		}
 	}
 }

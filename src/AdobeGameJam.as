@@ -1,11 +1,11 @@
 package
 {
 	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
 	
-	import views.*;
+	import views.GameView;
+	import views.GarageView;
+	import views.HudView;
+	import views.LobbyView;
 	
 	[SWF(width="1280", height="420", frameRate="60", backgroundColor="#000000")]
 	public class AdobeGameJam extends Sprite
@@ -15,7 +15,12 @@ package
 			GarageView;
 			GameView;
 			LobbyView;
+<<<<<<< HEAD
 			MultiplayerTestView;
+=======
+			HudView;
+			Hud;
+>>>>>>> puting HUD
 		}
 	}
 }

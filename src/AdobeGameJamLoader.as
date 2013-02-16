@@ -3,6 +3,8 @@ package
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	
+	import away3d.core.managers.Stage3DManager;
+	
 	import potato.modules.navigation.ViewLoader;
 	import potato.modules.navigation.presets.YAMLLoaderView;
 	
@@ -14,6 +16,10 @@ package
 		public function AdobeGameJamLoader ()
 		{
 			SplashView;
+<<<<<<< HEAD
+=======
+			Hud;
+>>>>>>> puting HUD
 			super();
 		}
 		
@@ -23,6 +29,8 @@ package
 			vl.addEventListener(ProgressEvent.PROGRESS, _onViewLoadProgress);
 			vl.addEventListener(Event.COMPLETE, onMainLoadComplete);
 			vl.start();
+			
+			User.sharedStage3DProxy = Stage3DManager.getInstance(stage).getFreeStage3DProxy();
 			
 			addView("splash");
 		}

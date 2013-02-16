@@ -16,7 +16,7 @@ package com.greensock.easing {
 	final public class BounceInOut extends Ease {
 	
 		/** The default ease instance which can be reused many times in various tweens in order to conserve memory and improve performance slightly compared to creating a new instance each time. **/
-		public static var ease:BounceInOut = new BounceInOut();
+		public static var ease:* = new BounceInOut();
 		
 		/** @inheritDoc **/
 		override public function getRatio(p:Number):Number {

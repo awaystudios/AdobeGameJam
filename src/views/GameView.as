@@ -1,5 +1,6 @@
 package views
 {
+<<<<<<< HEAD
 	import com.bit101.components.*;
 	
 	import away3d.cameras.lenses.*;
@@ -12,6 +13,9 @@ package views
 	import away3d.primitives.*;
 	import away3d.textures.*;
 	import away3d.utils.*;
+=======
+	import potato.modules.navigation.View;
+>>>>>>> puting HUD
 	
 	import flash.events.*;
 	import flash.geom.*;
@@ -70,6 +74,7 @@ package views
 		private var _specularMethod:FresnelSpecularMethod;
 		private var _shadowMethod:NearShadowMapMethod;
 		
+<<<<<<< HEAD
 		//global light setting
 		private var sunColor:uint = 0xAAAAA9;
 		private var sunAmbient:Number = 0.4;
@@ -665,6 +670,13 @@ package views
 		private function _updateColors () : void
 		{
 			//			(currentModel as WireframePrimitiveBase).color = User.bodyColor;
+=======
+		override public function init():void
+		{
+			trace('>>> game view');
+
+			addView("hud");
+>>>>>>> puting HUD
 		}
 	}
 }
