@@ -1,7 +1,10 @@
 package ui
 {
+	import com.greensock.TweenLite;
+	
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	
 	public class ArrowButton extends Sprite
 	{
@@ -20,7 +23,28 @@ package ui
 			_arrow.graphics.endFill();
 			_arrow.x = _arrow.y = -SIZE;
 			
+			_rollout();
+			
 			addChild(_arrow);
+			
+			addEventListener(MouseEvent.ROLL_OVER, _rollover);
+			addEventListener(MouseEvent.ROLL_OUT, _rollout);
+			addEventListener(MouseEvent.CLICK, _click);
+		}
+		
+		private function _click ( event : MouseEvent ) : void
+		{
+			//TweenLite.to(
+		}
+		
+		private function _rollover ( event : MouseEvent = null ) : void
+		{	
+			TweenLite.to(this, .1, { scaleX: 1, scaleY: 1, alpha: 1});
+		}
+		
+		private function _rollout ( event : MouseEvent = null ) : void
+		{
+			TweenLite.to(this, .1, { scaleX: .8, scaleY: .8, alpha: .8});
 		}
 	}
 }

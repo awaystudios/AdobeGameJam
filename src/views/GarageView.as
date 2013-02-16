@@ -5,7 +5,9 @@ package views
 	
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
-	import away3d.primitives.WireframePlane;
+	import away3d.primitives.WireframeCube;
+	import away3d.primitives.WireframePrimitiveBase;
+	import away3d.primitives.WireframeSphere;
 	
 	import ui.ArrowButton;
 	
@@ -14,7 +16,8 @@ package views
 		public var btNext:ArrowButton;
 		public var btPrev:ArrowButton;
 		
-		public var plane:WireframePlane;
+		public var cube:WireframeCube;
+		public var sphere:WireframeSphere;
 		public var camController:HoverController;
 		public var stats:AwayStats;
 		
@@ -26,13 +29,24 @@ package views
 		private var lastMouseY:Number;
 		
 		//car models
+		public var modelList : Array = [];
 		
 		override public function init():void
 		{
 			super.init();
 			
-			plane = new WireframePlane(700,700);
-			view3D.scene.addChild(plane);
+			_setup3D();
+			_setupUI();
+		}
+		
+		private function _setup3D () : void
+		{	
+			cube = new WireframeCube(700,700);
+			sphere = new WireframeSphere(350);
+			modelList.push(cube);
+			modelList.push(sphere);
+			(modelList[User.selectedCarIndex] as WireframePrimitiveBase).color = User.color;
+			view3D.scene.addChild(modelList[0]);
 			
 			camController = new HoverController(view3D.camera);
 			camController.distance = 1000;
@@ -41,15 +55,23 @@ package views
 			camController.panAngle = 45;
 			camController.tiltAngle = 20;
 			
-			
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-			
+		}
+		
+		private function _setupUI () : void
+		{
 			btPrev = new ArrowButton();
 			btPrev.addEventListener(MouseEvent.CLICK, _prev);
+			btPrev.rotation = 90;
+			btPrev.x = btPrev.width;
+			btPrev.y = int(stage.stageHeight*.5);
 			
 			btNext = new ArrowButton();
 			btNext.addEventListener(MouseEvent.CLICK, _next);
+			btNext.rotation = -90;
+			btNext.x = stage.stageWidth - btNext.width;
+			btNext.y = btPrev.y;
 			
 			addChild(btPrev);
 			addChild(btNext);
@@ -59,7 +81,6 @@ package views
 		override public function dispose () : void 
 		{
 			removeChild(stats);
-			
 			
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
@@ -76,15 +97,12 @@ package views
 			}
 			else
 			{
-				plane.rotationY += 1;
+				modelList[User.selectedCarIndex].rotationY += 1;
 			}
 			
 			super.render(event);
 		}
 		
-		/**
-		 * Mouse down listener for navigation
-		 */
 		private function onMouseDown(event:MouseEvent):void
 		{
 			lastPanAngle = camController.panAngle;
@@ -95,18 +113,12 @@ package views
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
 		
-		/**
-		 * Mouse up listener for navigation
-		 */
 		private function onMouseUp(event:MouseEvent):void
 		{
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
 		
-		/**
-		 * Mouse stage leave listener for navigation
-		 */
 		private function onStageMouseLeave(event:Event):void
 		{
 			move = false;
@@ -115,12 +127,36 @@ package views
 		
 		private function _prev ( event : Event = null ) : void
 		{
-			//change car
+			_changeModel(-1);
 		}
 		
 		private function _next ( event : Event = null ) : void
 		{
-			//change car	
+			_changeModel(1);
+		}
+		
+		private function _changeModel (direction:int = 1) : void
+		{
+			view3D.scene.removeChild(modelList[User.selectedCarIndex]);
+			
+			if ( direction < 0 )
+			{
+				if ( --User.selectedCarIndex <= 0 )
+				{
+					User.selectedCarIndex = modelList.length - 1;
+				}
+			}
+			else
+			{
+				if ( ++User.selectedCarIndex >= modelList.length )
+				{
+					User.selectedCarIndex = 0;
+				}
+			}
+			
+			view3D.scene.addChild(modelList[User.selectedCarIndex]);
+			
+			(modelList[User.selectedCarIndex] as WireframePrimitiveBase).color = Math.random()*0xFFFFFF;//User.color;
 		}
 	}
 }
