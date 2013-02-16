@@ -18,7 +18,7 @@ package loaders
 
 	public class AssetsLoader extends EventDispatcher
 	{
-		private const _loadingStrings:Vector.<String> = Vector.<String>(["sky/sky_posX.jpg", "sky/sky_posY.jpg", "sky/sky_posZ.jpg", "sky/sky_negX.jpg", "sky/sky_negY.jpg", "sky/sky_negZ.jpg", "camero/interior.jpg", "camero/camaro.AWD", "hamburg.AWD"]);
+		private const _loadingStrings:Vector.<String> = Vector.<String>(["sky/sky_posX.jpg", "sky/sky_posY.jpg", "sky/sky_posZ.jpg", "sky/sky_negX.jpg", "sky/sky_negY.jpg", "sky/sky_negZ.jpg", "camero/interior.jpg", "camero/camaro.AWD", "mercedesSLR/interior.jpg", "mercedesSLR/slr.AWD", "hamburg.AWD"]);
 		private var _n:uint = 0;
 		private var _bytesLoaded:uint = 0;
 		private var _bytesTotal:uint = 0;
@@ -170,6 +170,7 @@ package loaders
 			if (event.asset.assetType == AssetType.MESH) {
 				var mesh:Mesh = event.asset as Mesh;
 				var sc:Number = 50;
+				trace(loadingURL);
 				switch (loadingURL) {
 					case "camero/camaro.AWD":
 					case "mercedesSLR/slr.AWD":
@@ -255,7 +256,7 @@ package loaders
 					case "hamburg.AWD":	
 						var sceneBody:AWPRigidBody;
 						var trackScale:Number = 5;
-						trace(mesh.name);
+						
 						if (mesh.name == "track")
 							mesh.rotationX = 180;
 						mesh.geometry.applyTransformation(mesh.transform);

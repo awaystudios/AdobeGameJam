@@ -63,6 +63,20 @@ package loaders
 			var sceneZone07Body:AWPRigidBody = sceneData.sceneZone07Body;
 			_physicsWorld.addRigidBody(sceneZone07Body);
 			
+			
+			var material:SinglePassMaterialBase = new ColorMaterial(0x666666);
+			material.specular = 0;
+			
+			//assign materials
+			sceneMesh.material = material;
+			material.lightPicker = sceneData.lightPicker;
+			sceneWall.material = material;
+			material.lightPicker = sceneData.lightPicker;
+			sceneZone06.material = material;
+			material.lightPicker = sceneData.lightPicker;
+			sceneZone07.material = material;
+			material.lightPicker = sceneData.lightPicker;
+			
 			return sceneInstance;
 		}
 		
@@ -72,8 +86,7 @@ package loaders
 			
 			var carData:CarData = _assetLoader.carAssets[id];
 			var carInstance:CarInstance = new CarInstance();
-			var carContainer:ObjectContainer3D = new ObjectContainer3D();
-			carInstance.carContainer = new ObjectContainer3D();
+			var carContainer:ObjectContainer3D = carInstance.carContainer = new ObjectContainer3D();
 			var carSubContainer:ObjectContainer3D = new ObjectContainer3D();
 			carSubContainer.rotationY = 180;
 			carSubContainer.addChild(carInstance.bodyMesh = carData.bodyMesh.clone() as Mesh);
@@ -154,8 +167,6 @@ package loaders
 		{
 			_physicsWorld.removeVehicle(carInstance.carVehicle);
 			_physicsWorld.removeRigidBody(carInstance.carBody);
-			
-			trace(carInstance.bodyMesh);
 			
 			_view3D.scene.removeChild(carInstance.wheelFR);
 			_view3D.scene.removeChild(carInstance.wheelFL);
