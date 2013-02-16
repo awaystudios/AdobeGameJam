@@ -47,7 +47,7 @@ package views
 		
 		override public function dispose():void
 		{
-			stage3dProxy.removeEventListener(Event.ENTER_FRAME, render);
+			stage3DProxy.removeEventListener(Event.ENTER_FRAME, render);
 //			stage.removeEventListener(Event.RESIZE, onResize);
 			removeChild(view3D);
 			
