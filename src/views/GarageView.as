@@ -10,19 +10,29 @@ package views
 	import flash.geom.Vector3D;
 	
 	import away3d.cameras.lenses.PerspectiveLens;
-	import away3d.containers.ObjectContainer3D;
 	import away3d.controllers.HoverController;
 	import away3d.debug.AwayStats;
+	import away3d.lights.DirectionalLight;
+	import away3d.lights.PointLight;
+	import away3d.lights.shadowmaps.NearDirectionalShadowMapper;
+	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.materials.methods.FilteredShadowMapMethod;
+	import away3d.materials.methods.FogMethod;
+	import away3d.materials.methods.FresnelSpecularMethod;
+	import away3d.materials.methods.NearShadowMapMethod;
+	import away3d.primitives.SkyBox;
 	import away3d.primitives.WireframeCube;
 	import away3d.primitives.WireframePlane;
-	import away3d.primitives.WireframePrimitiveBase;
 	import away3d.primitives.WireframeSphere;
+	import away3d.textures.BitmapCubeTexture;
+	import away3d.utils.Cast;
 	
 	import awayphysics.collision.shapes.AWPStaticPlaneShape;
 	import awayphysics.dynamics.AWPDynamicsWorld;
 	import awayphysics.dynamics.AWPRigidBody;
 	
 	import data.CarInstance;
+	import data.SceneData;
 	
 	import loaders.AssetFactory;
 	import loaders.AssetsLoader;
@@ -65,6 +75,28 @@ package views
 		private var _mouseMove:Boolean;
 		private var currentCar:CarInstance;
 		
+		//light variables
+		private var _sunLight:DirectionalLight;
+		private var _skyLight:PointLight;
+		private var _lightPicker:StaticLightPicker;
+		
+		//materials
+		private var _skyMap:BitmapCubeTexture;
+		private var _fog:FogMethod;
+		private var _specularMethod:FresnelSpecularMethod;
+		private var _shadowMethod:NearShadowMapMethod;
+		
+		//global light setting
+		private var sunColor:uint = 0xAAAAA9;
+		private var sunAmbient:Number = 0.4;
+		private var sunDiffuse:Number = 0.5;
+		private var sunSpecular:Number = 1;
+		private var skyColor:uint = 0x333338;
+		private var skyAmbient:Number = 0.2;
+		private var skyDiffuse:Number = 0.3;
+		private var skySpecular:Number = 0.5;
+		private var fogColor:uint = 0x333338;
+		
 		override public function init():void
 		{
 			super.init();
@@ -96,6 +128,7 @@ package views
 			
 			_createFloor();
 			
+			initLights();
 //			cameraController = new HoverController(view3D.camera);
 //			cameraController.distance = 1000;
 //			cameraController.minTiltAngle = 0;
@@ -129,12 +162,82 @@ package views
 			var groundRigidbody : AWPRigidBody = new AWPRigidBody(groundShape, floor, 0);
 			physicsWorld.addRigidBody(groundRigidbody);
 			
+		}private function initLights():void
+		{
+			//create a light for shadows that mimics the sun's position in the skybox
+			_sunLight = new DirectionalLight();
+			_sunLight.y = 1200;
+			_sunLight.color = sunColor;
+			_sunLight.ambientColor = sunColor;
+			_sunLight.ambient = sunAmbient;
+			_sunLight.diffuse = sunDiffuse;
+			_sunLight.specular = sunSpecular;
+			
+			_sunLight.castsShadows = true;
+			_sunLight.shadowMapper = new NearDirectionalShadowMapper(.1);
+			view3D.scene.addChild(_sunLight);
+			
+			//create a light for ambient effect that mimics the sky
+			_skyLight = new PointLight();
+			_skyLight.color = skyColor;
+			_skyLight.ambientColor = skyColor;
+			_skyLight.ambient = skyAmbient;
+			_skyLight.diffuse = skyDiffuse;
+			_skyLight.specular = skySpecular;
+			_skyLight.y = 1200;
+			_skyLight.radius = 1000;
+			_skyLight.fallOff = 2500;
+			view3D.scene.addChild(_skyLight);
+			
+			
+			//global methods
+			_fog = new FogMethod(1000, 10000, 0x333338);
+			_specularMethod = new FresnelSpecularMethod();
+			_specularMethod.normalReflectance = 1.8;
+			
+			_shadowMethod = new NearShadowMapMethod(new FilteredShadowMapMethod(_sunLight));
+			_shadowMethod.epsilon = .0007;
+			
+			//create light picker for materials
+			_lightPicker = new StaticLightPicker([_sunLight, _skyLight]);
 		}
 		
 		protected function onComplete(event:Event):void
 		{
+			for each (var sceneData:SceneData in _assetLoader.sceneAssets)
+			{
+				sceneData.lightPicker = _lightPicker;
+				
+				//materials
+				sceneData.skyMap = _skyMap;
+				sceneData.fog = _fog;
+				sceneData.specularMethod = _specularMethod;
+				sceneData.shadowMethod = _shadowMethod;
+				
+				//global light setting
+				sceneData.sunColor = sunColor;
+				sceneData.sunAmbient = sunAmbient;
+				sceneData.sunDiffuse = sunDiffuse;
+				sceneData.sunSpecular = sunSpecular;
+				sceneData.skyColor = skyColor;
+				sceneData.skyAmbient = skyAmbient;
+				sceneData.skyDiffuse = skyDiffuse;
+				sceneData.skySpecular = skySpecular;
+				sceneData.fogColor = fogColor;
+			}
+			
 			_assetFactory = new AssetFactory(view3D, physicsWorld, _assetLoader);
-			currentCar = _assetFactory.addCar(User.selectedCarIndex);
+			currentCar = _assetFactory.addCar(User.selectedCarIndex,0);
+			
+			//generate cube texture for sky
+			_skyMap = new BitmapCubeTexture(
+				Cast.bitmapData(_assetLoader.imageAssets[0]), Cast.bitmapData(_assetLoader.imageAssets[3]),
+				Cast.bitmapData(_assetLoader.imageAssets[1]), Cast.bitmapData(_assetLoader.imageAssets[4]),
+				Cast.bitmapData(_assetLoader.imageAssets[2]), Cast.bitmapData(_assetLoader.imageAssets[5])
+			);
+			
+			//create the skybox
+			view3D.scene.addChild(new SkyBox(_skyMap));
 		}
 		
 		private function _setupUI () : void
@@ -172,7 +275,7 @@ package views
 		{
 			User.rimsColor = rimsColorChooser.value;
 			
-			_assetFactory.setBodyColor(currentCar, User.rimsColor);
+			_assetFactory.setRimColor(currentCar, User.rimsColor);
 			//_updateColors();
 		}
 		
@@ -211,6 +314,7 @@ package views
 			
 			cameraController.update();
 			
+			_skyLight.position = view3D.camera.position;
 			super.render(event);
 		}
 		
@@ -276,7 +380,7 @@ package views
 				}
 			}
 			
-			currentCar = _assetFactory.addCar(0);
+			currentCar = _assetFactory.addCar(0,0);
 //			currentModel = _assetFactory.addCar(User.selectedCarIndex).carContainer;
 			//view3D.scene.addChild(currentModel);
 			
