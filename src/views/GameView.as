@@ -106,7 +106,7 @@ package views
 		public function CreateRoom(name:String):void{
 			if(client == null) throw new Error("First connect to Player.IO webservice");
 			trace("Creating room", name)
-			client.multiplayer.createJoinRoom("GameJam", MpConfig.room_type, true, {name:name}, {}, handleMultiplayerConnect);	
+			client.multiplayer.createJoinRoom("GameJam2", MpConfig.room_type, true, {name:name}, {}, handleMultiplayerConnect);	
 		}
 		
 		public function JoinRoom(id:String):void{
@@ -589,6 +589,7 @@ package views
 		
 		private function onMouseDown(event:MouseEvent):void
 		{
+			return;
 			lastPanAngle = cameraController.panAngle;
 			lastTiltAngle = cameraController.tiltAngle;
 			lastMouseX = stage.mouseX;

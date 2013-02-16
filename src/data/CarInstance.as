@@ -39,13 +39,13 @@ package data
 			
 		public function step():void{
 			if (keyLeft) {
-				steering -= 0.05;
+				steering -= 0.03;
 				if (steering < -Math.PI / 6)
 					steering = -Math.PI / 6;
 			}
 			
 			if (keyRight) {
-				steering += 0.05;
+				steering += 0.03;
 				if (steering > Math.PI / 6)
 					steering = Math.PI / 6;
 			}
