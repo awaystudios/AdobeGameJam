@@ -26,7 +26,7 @@ package
 			//stage.color=0x111111;
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
-//			stage.displayState = StageDisplayState.FULL_SCREEN;
+			stage.displayState = StageDisplayState.FULL_SCREEN;
 
 			/* Calculated Resolution */
 			

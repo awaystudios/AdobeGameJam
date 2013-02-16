@@ -59,8 +59,11 @@ package
 		private var driveDropTime:Number = 4;
 		private var mapMoveTime:Number=2;
 		
+		private var fontSize:int=12;
+		
 		private var speedText:TextField;
 		private var speedTextShadow:TextField;
+		private var _speedTextCorrectionX:Number = -30;
 		private var speedTextCorrectionX:Number = -30;
 		private var speedTextCorrectionY:Number = 0;
 		
@@ -121,7 +124,7 @@ package
 		
 		
 		private function init():void{
-			initTrack(0.1*this.stage.width,0.1*this.stage.height);
+			initTrack(0.18*this.stage.stageWidth,0.18*this.stage.stageWidth);
 			addChild(speedometer);
 			addChild(arrow);
 			
@@ -133,32 +136,32 @@ package
 			
 			h = this.stage.stageHeight;
 			w = this.stage.stageWidth;
+			
+			fontSize  = w/50;
+			if(fontSize<5)
+				fontSize = 5;
+			if( fontSize>20)
+				fontSize=20;
 
-			speedText = new TextField(150, 20, "", "Korataki", 12, Color.WHITE);
-			speedText.bold = true;
+			speedText = new TextField(0.1*this.stage.stageWidth, 20, "", "Korataki", fontSize, Color.WHITE);
 			speedText.alpha = 0.8;
-			speedText.fontSize = 20;
 			
-			speedTextShadow = new TextField(150, 20, "", "Korataki", 12, Color.BLACK);
+			speedTextShadow = new TextField(0.1*this.stage.stageWidth, 20, "", "Korataki", fontSize, Color.BLACK);
 			speedTextShadow.alpha = 0.8;
-			speedTextShadow.fontSize = 20;
 			
+		
 			
-			lapText = new TextField(150, 20, lap.toString(), "Korataki", 12, Color.WHITE);
+			lapText = new TextField(speedText.width*2, 20, lap.toString(), "Korataki", fontSize, Color.WHITE);
 			lapText.alpha = 0.8;
-			lapText.fontSize = 20;
 			
-			lapTextShadow = new TextField(150, 20, lap.toString(), "Korataki", 12, Color.BLACK);
+			lapTextShadow = new TextField(speedText.width*2, 20, lap.toString(), "Korataki", fontSize, Color.BLACK);
 			lapTextShadow.alpha = 0.8;
-			lapTextShadow.fontSize = 20;
 			
-			positionText = new TextField(150, 20, lap.toString(), "Korataki", 12, Color.WHITE);
+			positionText = new TextField(speedText.width*2, 20, lap.toString(), "Korataki", fontSize, Color.WHITE);
 			positionText.alpha = 0.8;
-			positionText.fontSize = 20;
 			
-			positionTextShadow = new TextField(150, 20, lap.toString(), "Korataki", 12, Color.BLACK);
+			positionTextShadow = new TextField(speedText.width*2, 20, lap.toString(), "Korataki", fontSize, Color.BLACK);
 			positionTextShadow.alpha = 0.8;
-			positionTextShadow.fontSize = 20;
 			
 			this.setLap(1);
 			this.setPosition(1);
@@ -194,6 +197,10 @@ package
 			trace('x = ' + factor);
 			this.speedometer.height *= factor;
 			this.speedometer.width *= factor;
+			//this.speedText.scaleX = factor/2;
+			//this.speedText.scaleY = factor/2;
+			//speedTextCorrectionX = _speedTextCorrectionX * factor;
+			//this.speedTextCorrectionX 
 			this.arrow.height *=factor;
 			this.arrow.width *= factor;
 			this.arrow.pivotX = this.arrow.width/factor/2 + (this.arrow.width/factor)*(arrowRootCorrectionX/100);
@@ -213,8 +220,8 @@ package
 
 			this.arrow.x = this.speedometer.x + this.speedometer.width/2 + this.speedometer.width*(arrowPosXCorrection/100);
 			this.arrow.y = this.speedometer.y + this.speedometer.height/2 + this.speedometer.height*(arrowPosYCorrection/100);
-			this.speedText.x = this.speedometer.x + this.speedometer.width/2 + this.speedText.width/2 + this.speedTextCorrectionX;
-			this.speedText.y = this.speedometer.y + this.speedometer.height/2 + this.speedText.height;
+			this.speedText.x = speedometer.x + speedText.width;
+			this.speedText.y = speedometer.y+speedometer.height/2;
 			this.speedTextShadow.x = this.speedText.x+1;
 			this.speedTextShadow.y = this.speedText.y+1;
 			this.lapText.x = w-this.speedometer.x-this.speedometer.width;
