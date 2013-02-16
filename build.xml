@@ -8,7 +8,7 @@
 	<property name="src.dir" value="./src/" />
 	<property name="bin.dir" value="./bin-debug"/>
 	<property name="libs.dir" value="./libs/" />
-	<property name="swc.dir" value="./swc/" />
+	<property name="swc.dir" value="./swcs/" />
 	
 	<property name="flashPlayer" value="/Applications/Adobe Flash Builder 4.7/player/mac/11.4/Flash Player Debugger.app" />
 	

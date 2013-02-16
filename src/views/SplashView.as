@@ -14,11 +14,6 @@ package views
 		public var logo:Bitmap;
 		public var bar:ProgressBar;
 		
-		//public function SplashView ()
-		//{
-		//	init();
-		//}
-		
 		override public function init():void
 		{
 			logo = new _logoSrc() as Bitmap;
@@ -29,6 +24,9 @@ package views
 			
 			addChild(logo);
 			addChild(bar);
+			
+			x = int((stage.stageWidth - width) * .5);
+			y = int((stage.stageHeight - height) * .5);
 		}
 	}
 }
