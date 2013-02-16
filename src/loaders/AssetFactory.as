@@ -15,16 +15,15 @@ package loaders
 
 	public class AssetFactory
 	{
+		private var _view3D:View3D;
+		private var _physicsWorld:AWPDynamicsWorld;
+		private var _assetLoader:AssetLoader;
 		
-		public var assetLoader:AssetLoader;
-		
-		public var view:View3D;
-		
-		public var physicsWorld:AWPDynamicsWorld;
-		
-		public function AssetFactory(view:View3D)
+		public function AssetFactory(view3D:View3D, physicsWorld:AWPDynamicsWorld, assetLoader:AssetLoader )
 		{
-			
+			_view3D = view3D;
+			_physicsWorld = physicsWorld;
+			_assetLoader = assetLoader;
 		}
 		
 		public function setBodyColor(carInstance:CarInstance, color:uint):void
@@ -39,19 +38,19 @@ package loaders
 		
 		public function addCar(id:uint):CarInstance
 		{
-			var carData:CarData = assetLoader[id];
+			var carData:CarData = _assetLoader[id];
 			var carInstance:CarInstance = new CarInstance();
 			var carContainer:ObjectContainer3D = new ObjectContainer3D();
 			carInstance.carContainer = new ObjectContainer3D();
 			var carSubContainer:ObjectContainer3D = new ObjectContainer3D();
 			carSubContainer.rotationY = 180;
 			carContainer.addChild(carSubContainer);
-			view.scene.addChild(carContainer);
+			_view3D.scene.addChild(carContainer);
 			
-			view.scene.addChild(carInstance.wheelFR = carData.wheelMeshFR.clone() as Mesh);
-			view.scene.addChild(carInstance.wheelFL = carData.wheelMeshFL.clone() as Mesh);
-			view.scene.addChild(carInstance.wheelBR = carData.wheelMeshBR.clone() as Mesh);
-			view.scene.addChild(carInstance.wheelBL = carData.wheelMeshBL.clone() as Mesh);
+			_view3D.scene.addChild(carInstance.wheelFR = carData.wheelMeshFR.clone() as Mesh);
+			_view3D.scene.addChild(carInstance.wheelFL = carData.wheelMeshFL.clone() as Mesh);
+			_view3D.scene.addChild(carInstance.wheelBR = carData.wheelMeshBR.clone() as Mesh);
+			_view3D.scene.addChild(carInstance.wheelBL = carData.wheelMeshBL.clone() as Mesh);
 			
 			// create the chassis body
 			var carBody:AWPRigidBody = new AWPRigidBody(new AWPConvexHullShape(carData.carShape), carContainer, 1000);
@@ -61,7 +60,7 @@ package loaders
 			carInstance.carBody = carBody;
 			
 			// add to world physics
-			physicsWorld.addRigidBody(carBody);
+			_physicsWorld.addRigidBody(carBody);
 			
 			// setup vehicle tuning
 			var tuning:AWPVehicleTuning = new AWPVehicleTuning();
@@ -74,7 +73,7 @@ package loaders
 			
 			//create a new car physics object
 			var carVehicle:AWPRaycastVehicle = new AWPRaycastVehicle(tuning, carBody)
-			physicsWorld.addVehicle(carVehicle);
+			_physicsWorld.addVehicle(carVehicle);
 			
 			carInstance.carVehicle = carVehicle;
 			
@@ -98,14 +97,14 @@ package loaders
 		
 		public function removeCar(carInstance:CarInstance):void
 		{
-			physicsWorld.removeVehicle(carInstance.carVehicle);
-			physicsWorld.removeRigidBody(carInstance.carBody);
+			_physicsWorld.removeVehicle(carInstance.carVehicle);
+			_physicsWorld.removeRigidBody(carInstance.carBody);
 			
-			view.scene.removeChild(carInstance.wheelFR);
-			view.scene.removeChild(carInstance.wheelFL);
-			view.scene.removeChild(carInstance.wheelBR);
-			view.scene.removeChild(carInstance.wheelBL);
-			view.scene.removeChild(carInstance.carContainer);
+			_view3D.scene.removeChild(carInstance.wheelFR);
+			_view3D.scene.removeChild(carInstance.wheelFL);
+			_view3D.scene.removeChild(carInstance.wheelBR);
+			_view3D.scene.removeChild(carInstance.wheelBL);
+			_view3D.scene.removeChild(carInstance.carContainer);
 		}
 		
 		
