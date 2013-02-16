@@ -22,7 +22,7 @@ package
 			
 			/** Set Stage Properties */
 			
-			stage.frameRate=10;
+			stage.frameRate=60;
 			//stage.color=0x111111;
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;

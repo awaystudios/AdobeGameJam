@@ -248,9 +248,6 @@ package
 				this.setMargins();
 			}
 			
-			setSpeed(speed+1);
-			
-			
 			if( speed <= speedMax ){
 				this.speed = speed;
 				var drive:int = ((speed/gear)/gearMaxSpeed)/Math.abs(Math.sin(gear))*100;
