@@ -155,6 +155,8 @@ package loaders
 			_physicsWorld.removeVehicle(carInstance.carVehicle);
 			_physicsWorld.removeRigidBody(carInstance.carBody);
 			
+			trace(carInstance.bodyMesh);
+			
 			_view3D.scene.removeChild(carInstance.wheelFR);
 			_view3D.scene.removeChild(carInstance.wheelFL);
 			_view3D.scene.removeChild(carInstance.wheelBR);

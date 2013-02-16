@@ -36,6 +36,8 @@ views:
         #zIndex: 7      
       - id: game
         class: views.GameView
+      - id: test
+        class: views.MultiplayerTestView
         #zIndex: 5
         #parameters: 
         #  #to: contact@ipanemaliving.com.br

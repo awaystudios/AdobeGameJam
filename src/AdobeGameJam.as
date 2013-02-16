@@ -15,6 +15,7 @@ package
 			GarageView;
 			GameView;
 			LobbyView;
+			MultiplayerTestView;
 		}
 	}
 }

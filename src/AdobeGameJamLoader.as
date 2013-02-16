@@ -37,7 +37,7 @@ package
 			//ServiceManager.instance.registerServicesByConfig(parameters);
 			
 			removeView("splash");
-			addView("garage"); 
+			addView("test"); 
 			
 			if ( parameters.debug )
 			{
