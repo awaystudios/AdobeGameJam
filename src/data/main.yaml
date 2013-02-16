@@ -1,0 +1,50 @@
+# Loader
+id: loader
+parameters:
+  debug: true
+  firstView: garage
+  # Paths
+  #adminPath: "http://ipanemaliving.com.br/admin"
+  #adminPath: "http://wallacerettich.com/projetos/om_art"
+  #videosDataPath: "%(adminPath)s/content/videos"
+  #propertieDataPath: "%(adminPath)s/content/propertie"
+  #videoFilesPath: "http://coletivo.as/projects/osklen/om/"
+
+  #services:
+  #  #- id: contact
+  #    #url: "%(adminPath)s/contact"
+  #    #parser: json
+  #    #method: post
+views:
+  # Preloader
+  - id: splash
+    class: views.SplashView
+    zIndex: 2
+  # Main Container
+  - id: main
+    class: potato.modules.navigation.View
+    zIndex: 1
+    dependencies:
+      - url: "%(basePath)s/AdobeGameJam.swf"
+        domain: current
+    views:
+      - id: garage
+        class: views.GarageView
+        #zIndex: 10
+      - id: lobby
+        class: views.LobbyView
+        #zIndex: 7      
+      - id: game
+        class: views.GameView
+        #zIndex: 5
+        #parameters: 
+        #  #to: contact@ipanemaliving.com.br
+        #  #subject: "Ipanema Contemporary Living - Contact - %(name)s"
+        #dependencies:
+        #  #- id: propertiesList
+        #    #url: "%(adminPath)s/content/properties"
+        #    #type: data
+        #  #- id: emailBody
+        #    #url: data/emailBody.txt
+        #    #type: data
+        #    #format: text
