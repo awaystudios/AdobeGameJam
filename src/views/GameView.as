@@ -666,10 +666,6 @@ package views
 		private function _updateColors () : void
 		{
 			//			(currentModel as WireframePrimitiveBase).color = User.bodyColor;
-<<<<<<< HEAD
-=======
-
->>>>>>> Etc
 		}
 	}
 }
